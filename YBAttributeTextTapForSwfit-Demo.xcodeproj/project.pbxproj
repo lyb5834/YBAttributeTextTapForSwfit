@@ -14,6 +14,7 @@
 		0C9961C21D7FDC55004D4DA7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C9961C01D7FDC55004D4DA7 /* LaunchScreen.storyboard */; };
 		0C9961CD1D7FDC55004D4DA7 /* YBAttributeTextTapForSwfit_DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9961CC1D7FDC55004D4DA7 /* YBAttributeTextTapForSwfit_DemoTests.swift */; };
 		0C9961D81D7FDC55004D4DA7 /* YBAttributeTextTapForSwfit_DemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9961D71D7FDC55004D4DA7 /* YBAttributeTextTapForSwfit_DemoUITests.swift */; };
+		0C9961E61D7FDC90004D4DA7 /* YBAttributeTextTapForSwfit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9961E51D7FDC90004D4DA7 /* YBAttributeTextTapForSwfit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		0C9961D31D7FDC55004D4DA7 /* YBAttributeTextTapForSwfit-DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "YBAttributeTextTapForSwfit-DemoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C9961D71D7FDC55004D4DA7 /* YBAttributeTextTapForSwfit_DemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YBAttributeTextTapForSwfit_DemoUITests.swift; sourceTree = "<group>"; };
 		0C9961D91D7FDC55004D4DA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0C9961E51D7FDC90004D4DA7 /* YBAttributeTextTapForSwfit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YBAttributeTextTapForSwfit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				0C9961B71D7FDC55004D4DA7 /* AppDelegate.swift */,
 				0C9961B91D7FDC55004D4DA7 /* ViewController.swift */,
+				0C9961E51D7FDC90004D4DA7 /* YBAttributeTextTapForSwfit.swift */,
 				0C9961BB1D7FDC55004D4DA7 /* Main.storyboard */,
 				0C9961BE1D7FDC55004D4DA7 /* Assets.xcassets */,
 				0C9961C01D7FDC55004D4DA7 /* LaunchScreen.storyboard */,
@@ -256,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C9961E61D7FDC90004D4DA7 /* YBAttributeTextTapForSwfit.swift in Sources */,
 				0C9961BA1D7FDC55004D4DA7 /* ViewController.swift in Sources */,
 				0C9961B81D7FDC55004D4DA7 /* AppDelegate.swift in Sources */,
 			);
@@ -400,6 +404,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "YBAttributeTextTapForSwfit-Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Lee.YBAttributeTextTapForSwfit-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -411,6 +416,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "YBAttributeTextTapForSwfit-Demo/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Lee.YBAttributeTextTapForSwfit-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
