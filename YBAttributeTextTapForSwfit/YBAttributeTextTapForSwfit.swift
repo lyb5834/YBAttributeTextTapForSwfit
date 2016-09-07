@@ -96,12 +96,32 @@ extension UILabel {
         
         let framesetter = CTFramesetterCreateWithAttributedString(self.attributedText!)
         
-        let path = CGPathCreateMutable()
+        var path = CGPathCreateMutable()
         
         
         CGPathAddRect(path, nil, self.bounds)
         
-        let frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, nil)
+        var frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, nil)
+        
+        let range = CTFrameGetVisibleStringRange(frame)
+        
+        if self.attributedText?.length > range.length {
+            var m_font : UIFont
+            let n_font = self.attributedText?.attribute(NSFontAttributeName, atIndex: 0, effectiveRange: nil)
+            if n_font != nil {
+                m_font = n_font as! UIFont
+            }else if (self.font != nil) {
+                m_font = self.font
+            }else {
+                m_font = UIFont.systemFontOfSize(17)
+            }
+            
+            path = CGPathCreateMutable()
+            
+            CGPathAddRect(path, nil, CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height + m_font.lineHeight))
+            
+            frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, nil)
+        }
         
         let lines = CTFrameGetLines(frame)
         
