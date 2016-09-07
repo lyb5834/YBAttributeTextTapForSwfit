@@ -4,7 +4,7 @@
 # 效果图
 ![(演示效果)](http://7xt3dd.com1.z0.glb.clouddn.com/attributeAction.gif)
 
-# Object-C框架
+# Object-C版本
  https://github.com/lyb5834/YBAttributeTextTapAction.git
 
 
