@@ -16,7 +16,7 @@
 #重要提醒
   * 使用本框架时，最好设置一下`NSParagraphStyle中`的`lineSpacing`属性，也就是行间距，如果不设置，则默认为0！
   * 使用本框架时，一定要设置`label.attributedText = ？？？？？` ，不设置则无效果！！
-  * 默认添加点击效果，关闭只需设置`label.enabledTapEffect = NO`即可
+  * 默认添加点击效果，关闭只需设置`label.enabledTapEffect = false`即可
   
 #版本支持
   * `xcode7.0+`
