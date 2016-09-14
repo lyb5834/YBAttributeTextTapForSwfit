@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         attStr.addAttribute(NSForegroundColorAttributeName, value: UIColor.purpleColor(), range: NSMakeRange(18, 5))
         
         label.attributedText = attStr
+        label.textAlignment = NSTextAlignment.Center
         label.yb_addAttributeTapAction(["swfit","Label","swfit"]) { (string, range, int) in
             print("点击了\(string)标签 - \(range) - \(int)")
             //            let alert = UIAlertView.init(title: "提示", message: "您点击了" + String, delegate: nil, cancelButtonTitle: "OK")

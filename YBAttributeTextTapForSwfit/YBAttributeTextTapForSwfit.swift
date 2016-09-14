@@ -157,11 +157,17 @@ extension UILabel {
             
             let style = self.attributedText?.attribute(NSParagraphStyleAttributeName, atIndex: 0, effectiveRange: nil)
             
-            let lineSpace = style?.lineSpacing
+            var lineSpace : CGFloat = 0.0
             
-            let lineOutSpace = (CGFloat(self.bounds.size.height) - CGFloat(lineSpace!) * CGFloat(count - 1) - CGFloat(rect.size.height) * CGFloat(count)) / 2
+            if (style != nil) {
+                lineSpace = (style?.lineSpacing)!
+            }else {
+                lineSpace = 0.0
+            }
             
-            rect.origin.y = lineOutSpace + rect.size.height * CGFloat(i) + lineSpace! * CGFloat(i)
+            let lineOutSpace = (CGFloat(self.bounds.size.height) - CGFloat(lineSpace) * CGFloat(count - 1) - CGFloat(rect.size.height) * CGFloat(count)) / 2
+            
+            rect.origin.y = lineOutSpace + rect.size.height * CGFloat(i) + lineSpace * CGFloat(i)
             
             if CGRectContainsPoint(rect, point) {
                 
@@ -218,16 +224,6 @@ extension UILabel {
         }
         
         isTapAction = true
-        
-        let style = self.attributedText?.attribute(NSParagraphStyleAttributeName, atIndex: 0, effectiveRange: nil)
-        
-        if style == nil {
-            let sty = NSMutableParagraphStyle()
-            sty.lineSpacing = 0
-            let attStr = NSMutableAttributedString.init(attributedString: self.attributedText!)
-            attStr.addAttribute(NSParagraphStyleAttributeName, value: sty, range: NSMakeRange(0, self.attributedText!.length))
-            self.attributedText = attStr
-        }
         
         var totalString = self.attributedText?.string
         
