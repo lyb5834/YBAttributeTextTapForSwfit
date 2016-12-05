@@ -1,5 +1,5 @@
 # YBAttributeTextTapForSwfit
-一行代码添加文本点击事件(swfit版本)/a fast way to implement click event text(for swfit)
+一行代码添加文本点击事件(swfit3.0版本)/a fast way to implement click event text(for swfit3.0)
 
 # 效果图
 ![(演示效果)](http://7xt3dd.com1.z0.glb.clouddn.com/attributeAction.gif)
@@ -7,6 +7,7 @@
 # Objective-C版本
  https://github.com/lyb5834/YBAttributeTextTapAction.git
 
+# 已更新至swfit3.0
 
 #使用方法
 * 设置 `label.attributedText = ？？？？？` 

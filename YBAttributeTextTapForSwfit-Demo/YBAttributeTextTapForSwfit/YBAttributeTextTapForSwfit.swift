@@ -7,10 +7,34 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 private var isTapAction : Bool?
 private var attributeStrings : [YBAttributeModel]?
-private var tapBlock : ((String , NSRange , Int) -> Void)?
+private var tapBlock : ((_ str : String ,_ range : NSRange ,_ index : Int) -> Void)?
 private var isTapEffect : Bool = true
 private var effectDic : Dictionary<String , NSAttributedString>?
 
@@ -35,7 +59,7 @@ extension UILabel {
      - parameter strings:   需要点击的字符串数组
      - parameter tapAction: 点击事件回调
      */
-    func yb_addAttributeTapAction( strings : [String] , tapAction : ((String , NSRange , Int) -> Void)) -> Void {
+    func yb_addAttributeTapAction( _ strings : [String] , tapAction : @escaping ((String , NSRange , Int) -> Void)) -> Void {
         
         yb_getRange(strings)
         
@@ -44,18 +68,20 @@ extension UILabel {
     }
     
     // MARK: - touchActions
-    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isTapAction == false {
             return
         }
         
         let touch = touches.first
         
-        let point = touch?.locationInView(self)
+        let point = touch?.location(in: self)
         
         yb_getTapFrame(point!) { (String, NSRange, Int) -> Void in
             
-            tapBlock! (String, NSRange , Int)
+            if tapBlock != nil {
+                tapBlock! (String, NSRange , Int)
+            }
             
             if isTapEffect {
                 self.yb_saveEffectDicWithRange(NSRange)
@@ -64,19 +90,19 @@ extension UILabel {
         }
     }
     
-    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isTapEffect {
-            self.performSelectorOnMainThread(#selector(self.yb_tapEffectWithStatus(_:)), withObject: nil, waitUntilDone: false)
+            self.performSelector(onMainThread: #selector(self.yb_tapEffectWithStatus(_:)), with: nil, waitUntilDone: false)
         }
     }
     
-    public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    open override func touchesCancelled(_ touches: Set<UITouch>?, with event: UIEvent?) {
         if isTapEffect {
-            self.performSelectorOnMainThread(#selector(self.yb_tapEffectWithStatus(_:)), withObject: nil, waitUntilDone: false)
+            self.performSelector(onMainThread: #selector(self.yb_tapEffectWithStatus(_:)), with: nil, waitUntilDone: false)
         }
     }
     
-    override public func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if isTapAction == true {
             
             let result = yb_getTapFrame(point, result: { (
@@ -88,18 +114,18 @@ extension UILabel {
                 return self
             }
         }
-        return super.hitTest(point, withEvent: event)
+        return super.hitTest(point, with: event)
     }
     
     // MARK: - getTapFrame
-    private func yb_getTapFrame(point : CGPoint , result : ((String , NSRange , Int) -> Void)) -> Bool {
+    @discardableResult
+    fileprivate func yb_getTapFrame(_ point : CGPoint , result : ((_ str : String ,_ range : NSRange ,_ index : Int) -> Void)) -> Bool {
         
         let framesetter = CTFramesetterCreateWithAttributedString(self.attributedText!)
         
-        var path = CGPathCreateMutable()
+        var path = CGMutablePath()
         
-        
-        CGPathAddRect(path, nil, self.bounds)
+        path.addRect(self.bounds, transform: CGAffineTransform.identity)
         
         var frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, nil)
         
@@ -107,35 +133,34 @@ extension UILabel {
         
         if self.attributedText?.length > range.length {
             var m_font : UIFont
-            let n_font = self.attributedText?.attribute(NSFontAttributeName, atIndex: 0, effectiveRange: nil)
+            let n_font = self.attributedText?.attribute(NSFontAttributeName, at: 0, effectiveRange: nil)
             if n_font != nil {
                 m_font = n_font as! UIFont
             }else if (self.font != nil) {
                 m_font = self.font
             }else {
-                m_font = UIFont.systemFontOfSize(17)
+                m_font = UIFont.systemFont(ofSize: 17)
             }
             
-            path = CGPathCreateMutable()
-            
-            CGPathAddRect(path, nil, CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height + m_font.lineHeight))
+            path = CGMutablePath()
+            path.addRect(CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height + m_font.lineHeight), transform: CGAffineTransform.identity)
             
             frame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, nil)
         }
         
         let lines = CTFrameGetLines(frame)
         
-        if lines == [] {
+        if lines == [] as CFArray {
             return false
         }
         
         let count = CFArrayGetCount(lines)
         
-        var origins = [CGPoint](count: count, repeatedValue: CGPointZero)
+        var origins = [CGPoint](repeating: CGPoint.zero, count: count)
         
         CTFrameGetLineOrigins(frame, CFRangeMake(0, 0), &origins)
         
-        let transform = CGAffineTransformScale(CGAffineTransformMakeTranslation(0, self.bounds.size.height), 1.0, -1.0);
+        let transform = CGAffineTransform(translationX: 0, y: self.bounds.size.height).scaledBy(x: 1.0, y: -1.0);
         
         let verticalOffset = 0.0
         
@@ -145,22 +170,22 @@ extension UILabel {
             
             let line = CFArrayGetValueAtIndex(lines, i)
             
-            let lineRef = unsafeBitCast(line,CTLineRef.self)
+            let lineRef = unsafeBitCast(line,to: CTLine.self)
             
             let flippedRect : CGRect = yb_getLineBounds(lineRef , point: linePoint)
             
-            var rect = CGRectApplyAffineTransform(flippedRect, transform)
+            var rect = flippedRect.applying(transform)
             
-            rect = CGRectInset(rect, 0, 0)
+            rect = rect.insetBy(dx: 0, dy: 0)
             
-            rect = CGRectOffset(rect, 0, CGFloat(verticalOffset))
+            rect = rect.offsetBy(dx: 0, dy: CGFloat(verticalOffset))
             
-            let style = self.attributedText?.attribute(NSParagraphStyleAttributeName, atIndex: 0, effectiveRange: nil)
+            let style = self.attributedText?.attribute(NSParagraphStyleAttributeName, at: 0, effectiveRange: nil)
             
             var lineSpace : CGFloat = 0.0
             
             if (style != nil) {
-                lineSpace = (style?.lineSpacing)!
+                lineSpace = (style as! NSParagraphStyle).lineSpacing
             }else {
                 lineSpace = 0.0
             }
@@ -169,9 +194,9 @@ extension UILabel {
             
             rect.origin.y = lineOutSpace + rect.size.height * CGFloat(i) + lineSpace * CGFloat(i)
             
-            if CGRectContainsPoint(rect, point) {
+            if rect.contains(point) {
                 
-                let relativePoint = CGPointMake(point.x - CGRectGetMinX(rect), point.y - CGRectGetMinY(rect))
+                let relativePoint = CGPoint(x: point.x - rect.minX, y: point.y - rect.minY)
                 
                 var index = CTLineGetStringIndexForPosition(lineRef, relativePoint)
                 
@@ -204,7 +229,7 @@ extension UILabel {
         return false
     }
     
-    private func yb_getLineBounds(line : CTLineRef , point : CGPoint) -> CGRect {
+    fileprivate func yb_getLineBounds(_ line : CTLine , point : CGPoint) -> CGRect {
         var ascent : CGFloat = 0.0;
         var descent : CGFloat = 0.0;
         var leading  : CGFloat = 0.0;
@@ -217,11 +242,13 @@ extension UILabel {
     }
     
     // MARK: - getRange
-    private func yb_getRange(strings :  [String]) -> Void {
+    fileprivate func yb_getRange(_ strings :  [String]) -> Void {
         
         if self.attributedText?.length == 0 {
             return;
         }
+        
+        self.isUserInteractionEnabled = true
         
         isTapAction = true
         
@@ -230,15 +257,14 @@ extension UILabel {
         attributeStrings = [];
         
         for str : String in strings {
-            let range = totalString?.rangeOfString(str)
-            
-            if ((range?.startIndex.advancedBy(0)) != nil) {
+            let range = totalString?.range(of: str)
+            if (range?.lowerBound != nil) {
                 
-                totalString = totalString?.stringByReplacingCharactersInRange(range!, withString: self.yb_getStringWithRange(range!))
+                totalString = totalString?.replacingCharacters(in: range!, with: self.yb_getString(str.characters.count))
                 
                 let model = YBAttributeModel()
                 
-                model.range = NSMakeRange(Int(String(range!.startIndex))!, Int(String(range!.endIndex))! - Int(String(range!.startIndex))!)
+                model.range = totalString?.nsRange(from: range!)
                 model.str = str
                 
                 attributeStrings?.append(model)
@@ -246,9 +272,8 @@ extension UILabel {
         }
     }
     
-    private func yb_getStringWithRange(range : Range<String.Index>) -> String {
-        var string : String = ""
-        let count = Int(String(range.endIndex))! - Int(String(range.startIndex))!
+    fileprivate func yb_getString(_ count : Int) -> String {
+        var string = ""
         for _ in 0 ..< count {
             string = string + " "
         }
@@ -256,15 +281,15 @@ extension UILabel {
     }
     
     // MARK: - tapEffect
-    private func yb_saveEffectDicWithRange(range : NSRange) -> Void {
+    fileprivate func yb_saveEffectDicWithRange(_ range : NSRange) -> Void {
         effectDic = [:]
         
-        let subAttribute = self.attributedText?.attributedSubstringFromRange(range)
+        let subAttribute = self.attributedText?.attributedSubstring(from: range)
         
-        effectDic?.updateValue(subAttribute!, forKey: NSStringFromRange(range))
+        _ = effectDic?.updateValue(subAttribute!, forKey: NSStringFromRange(range))
     }
     
-    @objc private func yb_tapEffectWithStatus(status : Bool) -> Void {
+    @objc fileprivate func yb_tapEffectWithStatus(_ status : Bool) -> Void {
         if isTapEffect {
             let attStr = NSMutableAttributedString.init(attributedString: self.attributedText!)
             
@@ -273,10 +298,10 @@ extension UILabel {
             let range = NSRangeFromString(effectDic!.keys.first!)
             
             if status {
-                subAtt.addAttribute(NSBackgroundColorAttributeName, value: UIColor.lightGrayColor(), range: NSMakeRange(0, subAtt.length))
-                attStr.replaceCharactersInRange(range, withAttributedString: subAtt)
+                subAtt.addAttribute(NSBackgroundColorAttributeName, value: UIColor.lightGray, range: NSMakeRange(0, subAtt.length))
+                attStr.replaceCharacters(in: range, with: subAtt)
             }else {
-                attStr.replaceCharactersInRange(range, withAttributedString: subAtt)
+                attStr.replaceCharacters(in: range, with: subAtt)
             }
             self.attributedText = attStr
         }
@@ -288,5 +313,21 @@ private class YBAttributeModel: AnyObject {
     
     var range : NSRange?
     var str : String?
-    
+}
+
+private extension String {
+    func nsRange(from range: Range<String.Index>) -> NSRange {
+        let from = range.lowerBound.samePosition(in: utf16)
+        let to = range.upperBound.samePosition(in: utf16)
+        return NSRange(location: utf16.distance(from: utf16.startIndex, to: from),length: utf16.distance(from: from, to: to))
+    }
+    func range(from nsRange: NSRange) -> Range<String.Index>? {
+        guard
+            let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex),
+            let to16 = utf16.index(from16, offsetBy: nsRange.length, limitedBy: utf16.endIndex),
+            let from = String.Index(from16, within: self),
+            let to = String.Index(to16, within: self)
+            else { return nil }
+        return from ..< to
+    }
 }
