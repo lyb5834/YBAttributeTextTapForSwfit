@@ -83,7 +83,7 @@ extension UILabel {
                 tapBlock! (String, NSRange , Int)
             }
             
-            if isTapEffect {
+            if (isTapEffect && NSRange.location != NSNotFound) {
                 self.yb_saveEffectDicWithRange(NSRange)
                 self.yb_tapEffectWithStatus(true)
             }
