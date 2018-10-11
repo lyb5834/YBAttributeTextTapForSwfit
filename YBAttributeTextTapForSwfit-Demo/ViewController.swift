@@ -20,10 +20,10 @@ class ViewController: UIViewController {
         label.layer.borderColor = UIColor.gray.cgColor
         let attStr = NSMutableAttributedString.init(string: str)
         
-        attStr.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20), range: NSMakeRange(0, str.characters.count))
-        attStr.addAttribute(NSForegroundColorAttributeName, value: UIColor.blue, range: NSMakeRange(4, 5))
-        attStr.addAttribute(NSForegroundColorAttributeName, value: UIColor.orange, range: NSMakeRange(10, 5))
-        attStr.addAttribute(NSForegroundColorAttributeName, value: UIColor.purple, range: NSMakeRange(18, 5))
+        attStr.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 20), range: NSMakeRange(0, str.characters.count))
+        attStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.blue, range: NSMakeRange(4, 5))
+        attStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.orange, range: NSMakeRange(10, 5))
+        attStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.purple, range: NSMakeRange(18, 5))
         
         label.attributedText = attStr
         label.textAlignment = NSTextAlignment.center

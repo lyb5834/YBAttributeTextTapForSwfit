@@ -7,7 +7,7 @@
 # Objective-C版本
  https://github.com/lyb5834/YBAttributeTextTapAction.git
 
-# 已更新至swfit3.0
+# 已适配swfit4.2
 
 #使用方法
 * 设置 `label.attributedText = ？？？？？` 

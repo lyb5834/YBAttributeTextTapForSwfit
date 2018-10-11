@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C7BD64B1D88E7930097637A /* YBAttributeTextTapForSwfit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7BD64A1D88E7930097637A /* YBAttributeTextTapForSwfit.swift */; };
+		0C135531216EED2F00C6CAD3 /* YBAttributeTextTapForSwfit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C135530216EED2F00C6CAD3 /* YBAttributeTextTapForSwfit.swift */; };
 		0C9961B81D7FDC55004D4DA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9961B71D7FDC55004D4DA7 /* AppDelegate.swift */; };
 		0C9961BA1D7FDC55004D4DA7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9961B91D7FDC55004D4DA7 /* ViewController.swift */; };
 		0C9961BD1D7FDC55004D4DA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C9961BB1D7FDC55004D4DA7 /* Main.storyboard */; };
@@ -35,7 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0C7BD64A1D88E7930097637A /* YBAttributeTextTapForSwfit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YBAttributeTextTapForSwfit.swift; sourceTree = "<group>"; };
+		0C135530216EED2F00C6CAD3 /* YBAttributeTextTapForSwfit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YBAttributeTextTapForSwfit.swift; sourceTree = "<group>"; };
 		0C9961B41D7FDC55004D4DA7 /* YBAttributeTextTapForSwfit-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YBAttributeTextTapForSwfit-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C9961B71D7FDC55004D4DA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C9961B91D7FDC55004D4DA7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -79,7 +79,7 @@
 		0C7BD6491D88E7930097637A /* YBAttributeTextTapForSwfit */ = {
 			isa = PBXGroup;
 			children = (
-				0C7BD64A1D88E7930097637A /* YBAttributeTextTapForSwfit.swift */,
+				0C135530216EED2F00C6CAD3 /* YBAttributeTextTapForSwfit.swift */,
 			);
 			path = YBAttributeTextTapForSwfit;
 			sourceTree = "<group>";
@@ -270,7 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C7BD64B1D88E7930097637A /* YBAttributeTextTapForSwfit.swift in Sources */,
+				0C135531216EED2F00C6CAD3 /* YBAttributeTextTapForSwfit.swift in Sources */,
 				0C9961BA1D7FDC55004D4DA7 /* ViewController.swift in Sources */,
 				0C9961B81D7FDC55004D4DA7 /* AppDelegate.swift in Sources */,
 			);
@@ -424,7 +424,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Lee.YBAttributeTextTapForSwfit-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -437,7 +437,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Lee.YBAttributeTextTapForSwfit-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};

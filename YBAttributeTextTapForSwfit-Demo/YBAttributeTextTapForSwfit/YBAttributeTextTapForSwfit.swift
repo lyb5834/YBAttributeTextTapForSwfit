@@ -83,7 +83,7 @@ extension UILabel {
                 tapBlock! (String, NSRange , Int)
             }
             
-            if (isTapEffect && NSRange.location != NSNotFound) {
+            if isTapEffect {
                 self.yb_saveEffectDicWithRange(NSRange)
                 self.yb_tapEffectWithStatus(true)
             }
@@ -133,7 +133,7 @@ extension UILabel {
         
         if self.attributedText?.length > range.length {
             var m_font : UIFont
-            let n_font = self.attributedText?.attribute(NSFontAttributeName, at: 0, effectiveRange: nil)
+            let n_font = self.attributedText?.attribute(NSAttributedString.Key.font, at: 0, effectiveRange: nil)
             if n_font != nil {
                 m_font = n_font as! UIFont
             }else if (self.font != nil) {
@@ -180,7 +180,7 @@ extension UILabel {
             
             rect = rect.offsetBy(dx: 0, dy: CGFloat(verticalOffset))
             
-            let style = self.attributedText?.attribute(NSParagraphStyleAttributeName, at: 0, effectiveRange: nil)
+            let style = self.attributedText?.attribute(NSAttributedString.Key.paragraphStyle, at: 0, effectiveRange: nil)
             
             var lineSpace : CGFloat = 0.0
             
@@ -263,7 +263,6 @@ extension UILabel {
                 totalString = totalString?.replacingCharacters(in: range!, with: self.yb_getString(str.characters.count))
                 
                 let model = YBAttributeModel()
-                
                 model.range = totalString?.nsRange(from: range!)
                 model.str = str
                 
@@ -298,7 +297,7 @@ extension UILabel {
             let range = NSRangeFromString(effectDic!.keys.first!)
             
             if status {
-                subAtt.addAttribute(NSBackgroundColorAttributeName, value: UIColor.lightGray, range: NSMakeRange(0, subAtt.length))
+                subAtt.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.lightGray, range: NSMakeRange(0, subAtt.length))
                 attStr.replaceCharacters(in: range, with: subAtt)
             }else {
                 attStr.replaceCharacters(in: range, with: subAtt)
@@ -309,7 +308,7 @@ extension UILabel {
 }
 
 
-private class YBAttributeModel: AnyObject {
+private class YBAttributeModel: NSObject {
     
     var range : NSRange?
     var str : String?
@@ -317,9 +316,7 @@ private class YBAttributeModel: AnyObject {
 
 private extension String {
     func nsRange(from range: Range<String.Index>) -> NSRange {
-        let from = range.lowerBound.samePosition(in: utf16)
-        let to = range.upperBound.samePosition(in: utf16)
-        return NSRange(location: utf16.distance(from: utf16.startIndex, to: from),length: utf16.distance(from: from, to: to))
+        return NSRange(range,in : self)
     }
     func range(from nsRange: NSRange) -> Range<String.Index>? {
         guard
